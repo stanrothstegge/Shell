@@ -16,7 +16,7 @@ namespace antlrcpp {
 #else
   typedef std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> UTF32Converter;
 #endif
-  
+
   // The conversion functions fails in VS2017, so we explicitly use a workaround.
   template<typename T>
   inline std::string utf32_to_utf8(T const& data)
@@ -42,7 +42,7 @@ namespace antlrcpp {
     #else
       std::u32string s = converter.from_bytes(first, last);
     #endif
-    
+
     return s;
   }
 

@@ -1,6 +1,11 @@
 #include <iostream>
 #include "Sequence.h"
 #include "Pipeline.h"
+/**
+ * SEQUENCE
+ * Top-level class for an entered line in our shell.
+ * Contains a list of pipelines to execute in order.
+ */
 
 /**
  * Destructor.
