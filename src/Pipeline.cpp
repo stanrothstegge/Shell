@@ -26,8 +26,11 @@ Pipeline::~Pipeline() {
  * Executes the commands on this pipeline.
  */
 void Pipeline::execute() {
+//
+//    for (SimpleCommand *cmd : commands){
+//        cmd->execute();
+//    }
 
-    int pid;
     int pipefd[2];
 
     // Create an unnamed pipe
@@ -35,26 +38,24 @@ void Pipeline::execute() {
         fprintf(stderr, "parent: Failed to create pipe\n");
     }
 
-    for (SimpleCommand *cmd : commands) {
+    for (int i = 0; i < commands.size(); i++) {
 
-        // Fork a process to run grep
-        pid = fork();
+        // Fork a process to run
+        int pid = fork();
 
         if (pid == -1) {
             fprintf(stderr, "parent: Could not fork process\n");
         } else if (pid == 0) {
-            fprintf(stdout, "child: child will now run\n");
+            fprintf(stdout, "child: child will now run: %d\n", i);
 
-//            // Set fd[0] (stdin) to the read end of the pipe
-//            if (dup2(pipefd[READ_END], STDIN_FILENO) == -1) {
-//                fprintf(stderr, "child: read dup2 failed\n");
-//                return;
-//            }
+            // Set fd[0] (stdin) to the read end of the pipe
+            if (dup2(pipefd[READ_END], STDIN_FILENO) == -1) {
+                fprintf(stderr, "child: read dup2 failed\n");
+            }
 
             // Set fd[1] (stdout) to the write end of the pipe
             if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1) {
-                fprintf(stderr, "write dup2 failed\n");
-                return;
+                fprintf(stderr, "child: write dup2 failed\n");
             }
 
             // Close the pipe now that we've duplicated it
@@ -62,7 +63,7 @@ void Pipeline::execute() {
             close(pipefd[WRITE_END]);
 
             // Execute cmd
-            cmd->execute();
+            commands[i]->execute();
         }
     }
 
