@@ -27,7 +27,13 @@ public:
 };
 
 int main() {
-	static const char *PROMPT = "> ";
+	const char* a = getenv("USER");
+	const char* b = " > ";
+
+	char buffer[256]; // <- danger, only storage for 256 characters.
+	strncpy(buffer, a, sizeof(buffer));
+	strncat(buffer, b, sizeof(buffer));
+	static const char *PROMPT = buffer;
 	while( true ) {
 		// Print a prompt
 		std::cout << PROMPT;

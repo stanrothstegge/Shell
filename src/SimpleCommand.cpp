@@ -22,13 +22,13 @@ char *cwd() {
  */
 void SimpleCommand::execute() {
 
-    for (int j = 0; j < redirects.size(); j++) {
-        IORedirect red = redirects[j];
-
-        if (red.getNewFile() == "&1") {
-            dup2(STDERR_FILENO, STDOUT_FILENO);
-        } // else ... TODO
-    }
+//    for (int j = 0; j < redirects.size(); j++) {
+//        IORedirect red = redirects[j];
+//
+//        if (red.getNewFile() == "&1") {
+//            dup2(STDERR_FILENO, STDOUT_FILENO);
+//        } // else ... TODO
+//    }
 
     // TODO: Redirect function result
 
