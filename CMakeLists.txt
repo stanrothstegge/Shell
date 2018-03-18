@@ -332,7 +332,7 @@ set(SHELL_FILES
     src/Pipeline.h
     src/Sequence.cpp
     src/Sequence.h
-    src/IORedirect.h)
+    src/IORedirect.h src/Redirect.h)
 
 include_directories(
     runtime/src

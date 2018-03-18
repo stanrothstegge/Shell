@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "Sequence.h"
 #include "Pipeline.h"
 /**
@@ -11,8 +12,8 @@
  * Destructor.
  */
 Sequence::~Sequence() {
-	for( Pipeline *p : pipelines )
-		delete p;
+    for (Pipeline *p : pipelines)
+        delete p;
 }
 
 /**
@@ -20,10 +21,18 @@ Sequence::~Sequence() {
  * was used - waits for execution to be finished or not.
  */
 void Sequence::execute() {
-	std::cout << "FIXME: You should change Sequence::execute()" << std::endl;
 
-	for( Pipeline *p : pipelines ) {
-		// FIXME: More code needed?
-		p->execute();
-	}
+    pid_t pid;
+
+    for (Pipeline *p : pipelines) {
+
+        // Check for asynchronous pipeline
+        if (p->isAsync()) {
+            pid = fork();
+
+            if (pid == 0) {
+                p->execute();
+            }
+        } else p->execute();
+    }
 }

@@ -27,7 +27,7 @@ public:
 };
 
 int main() {
-	static const char *PROMPT = "-> ";
+	static const char *PROMPT = "> ";
 	while( true ) {
 		// Print a prompt
 		std::cout << PROMPT;
