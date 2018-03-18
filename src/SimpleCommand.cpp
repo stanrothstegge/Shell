@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <fstream>
 #include "SimpleCommand.h"
+#include <cstring>
+#include "sys/wait.h"
 
 char *cwd() {
     char cwd[5012];

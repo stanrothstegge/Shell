@@ -6,6 +6,7 @@
 #include "../gen/ShellGrammarParser.h"
 #include "CommandVisitor.h"
 #include "Sequence.h"
+#include "cstring"
 
 class ErrorListener : public antlr4::BaseErrorListener {
 	bool seenError;
