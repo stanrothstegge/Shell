@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "Pipeline.h"
 #include "SimpleCommand.h"
 
@@ -14,8 +15,8 @@
  * Destructor.
  */
 Pipeline::~Pipeline() {
-	for( SimpleCommand *cmd : commands )
-		delete cmd;
+    for (SimpleCommand *cmd : commands)
+        delete cmd;
 }
 
 /**
@@ -23,9 +24,11 @@ Pipeline::~Pipeline() {
  */
 void Pipeline::execute() {
 
-	for( SimpleCommand *cmd : commands ) {
+    for (SimpleCommand *cmd : commands) {
+
+        // TODO: Pipes to connect commands
 
         cmd->execute();
 
-	}
+    }
 }

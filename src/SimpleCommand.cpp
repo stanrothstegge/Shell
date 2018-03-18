@@ -1,6 +1,5 @@
 #include <iostream>
 #include <unistd.h>
-#include <fcntl.h>
 #include <fstream>
 #include "SimpleCommand.h"
 
@@ -23,12 +22,19 @@ char *cwd() {
  */
 void SimpleCommand::execute() {
 
-    // CASE: <The given command>
-    // Check the validity of the given arguments
-    // Check the validity of the given redirects
-    // Execute the required function and redirect its result
+    for (int j = 0; j < redirects.size(); j++) {
+        IORedirect red = redirects[j];
 
-    if (command == "pwd") {
+        if (red.getNewFile() == "&1") {
+            dup2(STDERR_FILENO, STDOUT_FILENO);
+        } // else ... TODO
+    }
+
+    // TODO: Redirect function result
+
+    if (command == "exit") {
+        exit(0);
+    } else if (command == "pwd") {
         char *path = cwd();
         if (!path) {
             std::cerr << strerror(errno) << std::endl;
@@ -56,6 +62,7 @@ void SimpleCommand::execute() {
         std::cout << "pwd         : print current working directory" << std::endl;
         std::cout << "cd [to_dir] : change working directory" << std::endl;
         std::cout << "help | ?    : you\'re in it ;)" << std::endl;
+        std::cout << "exit        : Exit the shell" << std::endl;
         std::cout << "\n- - - - - - - -[ End of file ]- - - - - - - -\n" << std::endl;
     } else {
         char *cmd = (char *) command.c_str();
@@ -76,7 +83,7 @@ void SimpleCommand::execute() {
             std::cerr << "Forking child failed" << std::endl;
         } else if (pid == 0) {
             if (execvp(cmd, argv) < 0) {
-                std::cerr << "Executing command failed. Try \'help\' or \'?\'" << std::endl;
+                std::cout << "Command not found! Try \'help\' or \'?\'" << std::endl;
             }
         } else while (wait(&status) != pid);
     }

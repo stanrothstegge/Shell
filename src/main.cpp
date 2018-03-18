@@ -37,13 +37,6 @@ int main() {
 		std::string line;
 		std::getline(std::cin, line);
 
-		// Check if the user typed 'exit'.
-		// Now this is a bit of a hack, since the nice way to do this is actually
-		// just check for 'exit' in the SimpleCommand-class.
-		// You are encouraged to remove this hack and handle things 'the nice way'.
-		if( line == "exit" )
-			break;
-
 		// Create an error listener. This will be called when an error occured.
 		ErrorListener errorListener;
 
